@@ -6,6 +6,7 @@ import me.jumper251.replay.ReplaySystem;
 import me.jumper251.replay.replaysystem.Replay;
 import me.jumper251.replay.replaysystem.data.ReplayData;
 import me.jumper251.replay.utils.fetcher.Consumer;
+import org.bukkit.Bukkit;
 
 import java.io.*;
 import java.util.*;
@@ -121,6 +122,11 @@ public class S3ReplaySaver implements IReplaySaver {
             // 4. Add name to cache
             replayNameCache.add(replay.getId());
         });
+    }
+
+    @Override
+    public void saveReplayAsync(Replay replay) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(ReplaySystem.getInstance(), () -> saveReplay(replay));
     }
 
     @Override
