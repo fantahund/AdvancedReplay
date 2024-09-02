@@ -64,10 +64,12 @@ public class ReplayHelper {
 	}
 	
 	public static void createTeleporter(Player player, Replayer replayer) {
-		Inventory inv = Bukkit.createInventory(null, ((int)replayer.getNPCList().size() / 9) > 0 ? ((int)Math.floor(replayer.getNPCList().size() / 9)) * 9 : 9 , "§7Teleporter");
-		
+		int npcCount = replayer.getNPCList().size();
+		int rows = (int) Math.ceil((double) npcCount / 9.0);
+		rows = Math.max(1, Math.min(rows, 6));
+		Inventory inv = Bukkit.createInventory(null, rows * 9, "§7Teleporter");
+
 		int index = 0;
-		
 		for (String name : replayer.getNPCList().keySet()) {
 			ItemStack stack = new ItemStack(Material.SKULL_ITEM,1,(short)3);
 			SkullMeta meta = (SkullMeta) stack.getItemMeta();
@@ -78,6 +80,9 @@ public class ReplayHelper {
 			inv.setItem(index, stack);
 
 			index++;
+			if (index >= 54) {
+				break;
+			}
 		}
 		
 		player.openInventory(inv);
