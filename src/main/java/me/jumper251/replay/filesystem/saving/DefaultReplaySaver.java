@@ -21,6 +21,7 @@ import me.jumper251.replay.replaysystem.data.ReplayData;
 import me.jumper251.replay.utils.LogUtils;
 import me.jumper251.replay.utils.fetcher.Acceptor;
 import me.jumper251.replay.utils.fetcher.Consumer;
+import org.bukkit.Bukkit;
 
 public class DefaultReplaySaver implements IReplaySaver {
 
@@ -57,7 +58,12 @@ public class DefaultReplaySaver implements IReplaySaver {
 		
 		
 	}
-	
+
+    @Override
+    public void saveReplayAsync(Replay replay) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(ReplaySystem.getInstance(), () -> saveReplay(replay));
+    }
+
 
 	@Override
 	public void loadReplay(String replayName, Consumer<Replay> consumer) {

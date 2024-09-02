@@ -8,7 +8,9 @@ import me.jumper251.replay.utils.fetcher.Consumer;
 public interface IReplaySaver {
 
 	void saveReplay(Replay replay);
-	
+
+	void saveReplayAsync(Replay replay);
+
 	void loadReplay(String replayName, Consumer<Replay> consumer);
 	
 	boolean replayExists(String replayName);

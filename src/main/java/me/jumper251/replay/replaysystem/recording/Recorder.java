@@ -141,8 +141,12 @@ public class Recorder {
 		list.add(actionData);
 		this.data.getActions().put(tick, list);
 	}
-	
+
 	public void stop(boolean save) {
+		stop(save, false);
+	}
+	
+	public void stop(boolean save, boolean async) {
 		this.packetRecorder.unregister();
 		this.run.cancel();
 
@@ -154,7 +158,12 @@ public class Recorder {
 			this.data.setWatchers(new HashMap<>());
 			this.replay.setData(this.data);
 			this.replay.setReplayInfo(new ReplayInfo(this.replay.getId(), creator, System.currentTimeMillis(), this.currentTick));
-			ReplaySaver.save(this.replay);
+			if (async) {
+				ReplaySaver.saveAsync(this.replay);
+			} else {
+				ReplaySaver.save(this.replay);
+			}
+
 		} else {
 			this.data.getActions().clear();
 		}

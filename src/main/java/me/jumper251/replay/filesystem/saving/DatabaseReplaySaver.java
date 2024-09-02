@@ -12,12 +12,14 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import me.jumper251.replay.ReplaySystem;
 import me.jumper251.replay.database.DatabaseRegistry;
 import me.jumper251.replay.replaysystem.Replay;
 import me.jumper251.replay.replaysystem.data.ReplayData;
 import me.jumper251.replay.replaysystem.data.ReplayInfo;
 import me.jumper251.replay.utils.fetcher.Acceptor;
 import me.jumper251.replay.utils.fetcher.Consumer;
+import org.bukkit.Bukkit;
 
 public class DatabaseReplaySaver implements IReplaySaver {
 
@@ -49,6 +51,11 @@ public class DatabaseReplaySaver implements IReplaySaver {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public void saveReplayAsync(Replay replay) {
+		Bukkit.getServer().getScheduler().runTaskAsynchronously(ReplaySystem.getInstance(), () -> saveReplay(replay));
 	}
 
 	@Override

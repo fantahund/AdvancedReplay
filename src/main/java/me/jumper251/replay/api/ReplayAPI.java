@@ -64,17 +64,21 @@ public class ReplayAPI {
 	public Replay recordReplay(String name, Player... players) {
 		return recordReplay(name, null, players);
 	}
-	
+
 	public void stopReplay(String name, boolean save) {
 		stopReplay(name, save, false);
 	}
-	
-	public void stopReplay(String name, boolean save, boolean ignoreEmpty) {
+
+	public void stopReplay(String name, boolean save, boolean saveAsync) {
+		stopReplay(name, save, saveAsync, false);
+	}
+
+	public void stopReplay(String name, boolean save, boolean saveAsync, boolean ignoreEmpty) {
 		if (ReplayManager.activeReplays.containsKey(name)) {
 			Replay replay = ReplayManager.activeReplays.get(name);
 			
 			boolean shouldSave = save && (replay.getRecorder().getData().getActions().size() > 0 || !ignoreEmpty);
-			if (replay.isRecording()) replay.getRecorder().stop(shouldSave);
+			if (replay.isRecording()) replay.getRecorder().stop(shouldSave, saveAsync);
 		}
 	}
 	

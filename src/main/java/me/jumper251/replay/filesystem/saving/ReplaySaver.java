@@ -27,6 +27,12 @@ public class ReplaySaver {
 			replaySaver.saveReplay(replay);
 		}
 	}
+
+	public static void saveAsync(Replay replay) {
+		if (isRegistered()) {
+			replaySaver.saveReplayAsync(replay);
+		}
+	}
 	
 	public static void load(String replayName, Consumer<Replay> consumer) {
 		if (isRegistered()) {
